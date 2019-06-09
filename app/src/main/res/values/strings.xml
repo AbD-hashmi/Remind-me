@@ -1,0 +1,47 @@
+<!--
+  Copyright 2015 Blanyal D'Souza.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <string name="app_name">Timer</string>
+
+    <string name="title_activity_add_reminder">Add Reminder</string>
+    <string name="title_activity_newtrackers">New Tracker</string>
+    <string name="title_activity_edit_reminder">Edit Reminder</string>
+    <string name="title_activity_licenses">Licenses</string>
+
+    <string name="add_reminder">Reminder</string>
+    <string name="add_Trackers">Tracking for</string>
+    <string name="details">Details</string>
+    <string name="details_tracker">Details to track</string>
+    <string name="date">Date</string>
+    <string name="datefortrackingstart">Start Date</string>
+    <string name="datefortrackingend">End Date</string>
+    <string name="time">Time</string>
+    <string name="repeat">Repeat</string>
+    <string name="repeat_off">Off</string>
+    <string name="repeat_no">Repetition Interval </string>
+    <string name="repeat_type">Type of Repetitions</string>
+
+    <string name="action_discard_reminder">Discard Reminder</string>
+    <string name="action_save_reminder">Save Reminder</string>
+
+    <string name="no_reminders">Click on the plus button below to begin creating your reminders!</string>
+    <string name="no_trackers">Click on the plus button below to create new trackers!</string>
+
+    <string name="licenses">    </string>
+
+</resources>
