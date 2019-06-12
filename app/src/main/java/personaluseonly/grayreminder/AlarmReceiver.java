@@ -29,8 +29,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
@@ -45,7 +48,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     PendingIntent mPendingIntent;
     AudioManager am;
     int i;
-    String Channel_id;
+
+    String CHANNEL_ID = "channel";
     @Override
     public void onReceive(Context context, Intent intent) {
         int mReceivedID = Integer.parseInt(intent.getStringExtra(ReminderEditActivity.EXTRA_REMINDER_ID));
@@ -73,8 +77,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         // Vibrate for 500 milliseconds
         v.vibrate(500);*/
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        createNotificationChannel(context,notificationManager);
+      /*  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
 
             Channel_id = "my_channel_01";
@@ -88,7 +92,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             mChannel.enableVibration(true);
             mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             mChannel.setShowBadge(false);
-        }
+        }*/
+
+
 /*        // Create Notification
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context,Channel_id)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
@@ -111,10 +117,12 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         Notification notif = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notif = new Notification.Builder(context,Channel_id)
+            Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            notif = new Notification.Builder(context,CHANNEL_ID)
                     .setContentTitle(mTitle)
                     .setContentText(mTitle)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSound(uri)
+                    .setSmallIcon(R.drawable.ic_access_time_grey600_24dp)
                 //    .setLargeIcon(result)
                     .setContentIntent(mClick)
               //      .setStyle(new Notification.BigPictureStyle().bigPicture(result))
@@ -213,5 +221,33 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
+    }
+    private void createNotificationChannel(Context context, NotificationManager notificationManager) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+
+        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            AudioAttributes att = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
+            CharSequence name = " sssd";
+            String description = "sda";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.setSound(uri,att);
+            channel.enableVibration(true);
+            channel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            channel.setShowBadge(false);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
